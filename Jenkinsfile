@@ -13,6 +13,7 @@ node {
             echo 'Test Failed'
         } finally {
             junit 'test-reports/results.xml'
+            echo 'Test Finished'
         }
     }
 }
