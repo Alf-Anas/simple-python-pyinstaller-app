@@ -16,4 +16,21 @@ node {
             echo 'Test Finished'
         }
     }
+    stage('Manual Approval') {
+        input message: 'Lanjutkan ke tahap Deploy? (Klik "Proceed" untuk deploy)'
+    }
+    withDockerContainer(image: 'cdrx/pyinstaller-linux:python2') {
+        try {
+            stage('Deploy') {
+                sh 'pyinstaller --onefile sources/add2vals.py'
+            }
+        } catch (e) {
+            echo 'Deploy Failed'
+        } finally {
+            archiveArtifacts 'dist/add2vals'
+            echo 'Deploy Succeded'
+            sh 'sleep 1m'
+            echo 'Application Shutting down...'
+        }
+    }
 }
