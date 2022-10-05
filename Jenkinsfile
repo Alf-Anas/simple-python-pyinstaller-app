@@ -2,7 +2,6 @@ pipeline {
     agent {
         docker {
             image 'python:latest'
-            label 'Built-In Node'
         }
     }
     stages {
