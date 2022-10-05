@@ -34,13 +34,13 @@ pipeline {
             }
             steps {
                 sh "echo 'Steps Started'"
-                sh 'pyinstaller --onefile sources/add2vals.py'
+                // sh 'pyinstaller --onefile sources/add2vals.py'
                 sh "echo 'Steps Finished'"
             }
             post {
                 success {
                     sh "echo 'Success'"
-                    archiveArtifacts 'dist/add2vals'
+                    // archiveArtifacts 'dist/add2vals'
                     sh "echo 'Deliver Finished'"
                 }
             }
