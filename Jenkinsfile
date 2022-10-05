@@ -1,5 +1,10 @@
 pipeline {
-    agent none
+    agent {
+        docker {
+            image 'python:2-alpine'
+            args '-p 1000:1000'
+        }
+    }
     stages {
         stage('Build') {
             agent {
