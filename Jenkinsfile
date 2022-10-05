@@ -19,22 +19,16 @@ node {
             echo 'Test Finished'
         }
     }
-    stage('Deploy') {
-            environment {
-                VOLUME = '$(pwd)/sources:/src'
-                IMAGE = 'cdrx/pyinstaller-linux:python2'
+    withEnv(["VOLUME=${'$(pwd)/sources:/src'}", "IMAGE='cdrx/pyinstaller-linux:python2'"]) {
+        try {
+            stage('Deploy') {
+                sh "docker run --rm -v ${VOLUME} ${IMAGE} 'pyinstaller -F add2vals.py'"
             }
-            steps {
-                dir(path: env.BUILD_ID) {
-                    unstash(name: 'compiled-results')
-                    sh "docker run --rm -v ${VOLUME} ${IMAGE} 'pyinstaller -F add2vals.py'"
-                }
-            }
-            post {
-                success {
-                    archiveArtifacts "${env.BUILD_ID}/sources/dist/add2vals"
-                    sh "docker run --rm -v ${VOLUME} ${IMAGE} 'rm -rf build dist'"
-                }
-            }
+        } catch (e) {
+            echo 'Deploy Failed'
+        } finally {
+            archiveArtifacts "${env.BUILD_ID}/sources/dist/add2vals"
+            sh "docker run --rm -v ${VOLUME} ${IMAGE} 'rm -rf build dist'"
+        }
     }
 }
