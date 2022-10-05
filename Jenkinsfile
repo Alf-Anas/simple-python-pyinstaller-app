@@ -1,11 +1,12 @@
 pipeline {
-    agent {
-        docker {
-            image 'python:2-alpine'
-        }
-    }
+    agent none
     stages {
         stage('Build') {
+            agent {
+                docker {
+                    image 'python:2-alpine'
+                }
+            }
             steps {
                 sh 'python -m py_compile sources/add2vals.py sources/calc.py'
             }
@@ -25,7 +26,7 @@ pipeline {
                 }
             }
         }
-        stage('Deliver-Win') {
+        stage('Deliver') {
             agent {
                 docker {
                     image 'cdrx/pyinstaller-linux:python2'
@@ -33,13 +34,13 @@ pipeline {
             }
             steps {
                 sh "echo 'Steps Started'"
-                // sh 'pyinstaller --onefile sources/add2vals.py'
+                sh 'pyinstaller --onefile sources/add2vals.py'
                 sh "echo 'Steps Finished'"
             }
             post {
                 success {
                     sh "echo 'Success'"
-                    // archiveArtifacts 'dist/add2vals'
+                    archiveArtifacts 'dist/add2vals'
                     sh "echo 'Deliver Finished'"
                 }
             }
