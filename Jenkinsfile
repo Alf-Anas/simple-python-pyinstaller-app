@@ -5,7 +5,6 @@ pipeline {
             agent {
                 docker {
                     image 'python:2-alpine'
-                    args '-p 1000:1000'
                 }
             }
             steps {
@@ -28,22 +27,9 @@ pipeline {
             }
         }
         stage('Deliver') {
-            agent {
-                docker {
-                    image 'cdrx/pyinstaller-linux:python2'
-                }
-            }
-            steps {
-                sh "echo 'Steps Started'"
+            docker.image('cdrx/pyinstaller-linux:python2').inside {
                 sh 'pyinstaller --onefile sources/add2vals.py'
-                sh "echo 'Steps Finished'"
-            }
-            post {
-                success {
-                    sh "echo 'Success'"
-                    archiveArtifacts 'dist/add2vals'
-                    sh "echo 'Deliver Finished'"
-                }
+                archiveArtifacts 'dist/add2vals'
             }
         }
     }
