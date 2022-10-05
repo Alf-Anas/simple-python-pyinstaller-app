@@ -34,6 +34,8 @@ node {
         } catch (e) {
             echo 'Deploy Failed'
         } finally {
+            sh "${env.BUILD_ID}/sources/dist/add2vals 10 12"
+            sh 'sleep 1m'
             archiveArtifacts "${env.BUILD_ID}/sources/dist/add2vals"
             sh "docker run --rm -v ${VOLUME} ${IMAGE} 'rm -rf build dist'"
         }
