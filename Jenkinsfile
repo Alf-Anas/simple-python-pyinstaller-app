@@ -2,7 +2,7 @@ pipeline {
     agent {
         docker {
             image 'python:latest'
-            label 'agent-hkgw'
+            label 'Built-In Node'
         }
     }
     stages {
