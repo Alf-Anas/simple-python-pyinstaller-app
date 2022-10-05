@@ -26,10 +26,10 @@ pipeline {
                 }
             }
         }
-        stage('Deliver') {
+        stage('Deliver-Win') {
             agent {
                 docker {
-                    image 'cdrx/pyinstaller-linux:python3'
+                    image 'cdrx/pyinstaller-windows:python3'
                 }
             }
             steps {
