@@ -1,36 +1,28 @@
-pipeline {
-    agent none
-    stages {
+node {
+    withDockerContainer(image: 'python:2-alpine') {
         stage('Build') {
-            agent {
-                docker {
-                    image 'python:2-alpine'
-                }
-            }
-            steps {
-                sh 'python -m py_compile sources/add2vals.py sources/calc.py'
-            }
+            echo 'Build Started'
+            sh 'python -m py_compile sources/add2vals.py sources/calc.py'
+            echo 'Build Finished'
         }
-        stage('Test') {
-            agent {
-                docker {
-                    image 'qnib/pytest'
-                }
-            }
-            steps {
+    }
+    withDockerContainer(image: 'qnib/pytest') {
+        try {
+            stage('Test') {
+                echo 'Test Started'
                 sh 'py.test --verbose --junit-xml test-reports/results.xml sources/test_calc.py'
             }
-            post {
-                always {
-                    junit 'test-reports/results.xml'
-                }
-            }
+        } catch (e) {
+            echo 'Test Failed'
+        } finally {
+            junit 'test-reports/results.xml'
+            echo 'Test Finished'
         }
-        stage('Deliver') {
-            docker.image('cdrx/pyinstaller-linux:python2').inside {
-                sh 'pyinstaller --onefile sources/add2vals.py'
-                archiveArtifacts 'dist/add2vals'
-            }
+    }
+    stage('Deploy') {
+        docker.image('cdrx/pyinstaller-linux:python2').inside {
+            sh 'pyinstaller --onefile sources/add2vals.py'
+            archiveArtifacts 'dist/add2vals'
         }
     }
 }
