@@ -33,11 +33,15 @@ pipeline {
                 }
             }
             steps {
+                echo 'Steps Started'
                 sh 'pyinstaller --onefile sources/add2vals.py'
+                echo 'Steps Finished'
             }
             post {
                 success {
+                    echo 'Success'
                     archiveArtifacts 'dist/add2vals'
+                    echo 'Deliver Finished'
                 }
             }
         }
