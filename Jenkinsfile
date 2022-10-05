@@ -19,9 +19,6 @@ node {
             echo 'Test Finished'
         }
     }
-    // stage('Manual Approval') {
-    //     input message: 'Lanjutkan ke tahap Deploy? (Klik "Proceed" untuk deploy)'
-    // }
     withDockerContainer(image: 'cdrx/pyinstaller-linux:python2') {
         try {
             stage('Deploy') {
