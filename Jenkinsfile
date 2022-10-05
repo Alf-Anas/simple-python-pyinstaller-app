@@ -3,6 +3,7 @@ node {
         stage('Build') {
             echo 'Build Started'
             sh 'python -m py_compile sources/add2vals.py sources/calc.py'
+            stash(name: 'compiled-results', includes: 'sources/*.py*')
             echo 'Build Finished'
         }
     }
@@ -22,6 +23,7 @@ node {
     withEnv(["VOLUME=${'$(pwd)/sources:/src'}", "IMAGE='cdrx/pyinstaller-linux:python2'"]) {
         try {
             stage('Deploy') {
+                unstash(name: 'compiled-results')
                 sh "docker run --rm -v ${VOLUME} ${IMAGE} 'pyinstaller -F add2vals.py'"
             }
         } catch (e) {
