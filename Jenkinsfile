@@ -30,7 +30,7 @@ pipeline {
             agent {
                 docker {
                     image 'cdrx/pyinstaller-linux:python2'
-                    args '-p 1000:1000'
+                    args '-u 1000:1000'
                 }
             }
             steps {
