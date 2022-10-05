@@ -1,5 +1,10 @@
 pipeline {
-    agent none
+    agent {
+        docker {
+            image 'python:latest'
+            label 'agent-hkgw'
+        }
+    }
     stages {
         stage('Build') {
             agent {
