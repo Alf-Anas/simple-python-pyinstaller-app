@@ -1,10 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'python:2-alpine'
-            args '-p 1000:1000'
-        }
-    }
+    agent none
     stages {
         stage('Build') {
             agent {
@@ -35,6 +30,7 @@ pipeline {
             agent {
                 docker {
                     image 'cdrx/pyinstaller-linux:python2'
+                    args '-p 1000:1000'
                 }
             }
             steps {
