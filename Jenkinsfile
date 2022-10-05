@@ -27,7 +27,7 @@ node {
         } catch (e) {
             echo 'Deploy Failed'
         } finally {
-            archiveArtifacts "${env.BUILD_ID}/sources/dist/add2vals"
+            archiveArtifacts 'sources/dist/add2vals'
             sh "docker run --rm -v ${VOLUME} ${IMAGE} 'rm -rf build dist'"
         }
     }
