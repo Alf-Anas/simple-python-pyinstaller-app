@@ -39,10 +39,10 @@ node {
             echo 'Tes penjumlahan 4 dan 5'
             sh "${env.BUILD_ID}/sources/dist/add2vals 4 5"
             sh 'ls'
-            sh 'cd jenkins'
+            sh 'cd ./jenkins'
             sh 'ls'
             sh 'cd ..'
-            sh 'chmod +x jenkins/scripts/deploy.sh'
+            sh 'chmod +x ./jenkins/scripts/deploy.sh'
             sh './jenkins/scripts/deploy.sh'
             sh 'sleep 1m'
             archiveArtifacts "${env.BUILD_ID}/sources/dist/add2vals"
