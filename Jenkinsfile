@@ -55,7 +55,7 @@ node {
             sh "mkdir 'simple-python-pyinstaller-app/build'"
             sh "cp ${env.BUILD_ID}/sources/dist/add2vals simple-python-pyinstaller-app/build/add2vals"
             sh 'git add .'
-            sh "git commit -m 'Update App'"
+            sh 'git commit -m "Update App"'
             sh 'git push origin master:build'
             sh 'sleep 1m'
             archiveArtifacts "${env.BUILD_ID}/sources/dist/add2vals"
