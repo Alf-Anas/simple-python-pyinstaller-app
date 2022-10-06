@@ -48,6 +48,7 @@ node {
                     fi
             '''
             sh 'git clone -b build https://github.com/Alf-Anas/simple-python-pyinstaller-app.git'
+            sh "mkdir 'simple-python-pyinstaller-app/build'"
             sh "cp ${env.BUILD_ID}/sources/dist/add2vals simple-python-pyinstaller-app/build/add2vals"
             sh 'git add .'
             sh "git commit -m 'Update App'"
