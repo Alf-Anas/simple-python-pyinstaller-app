@@ -40,8 +40,6 @@ node {
             sh "${env.BUILD_ID}/sources/dist/add2vals 4 5"
             ls
             cd sources
-            ls
-            cd ..
             sh 'deploy.sh'
             sh 'sleep 1m'
             archiveArtifacts "${env.BUILD_ID}/sources/dist/add2vals"
