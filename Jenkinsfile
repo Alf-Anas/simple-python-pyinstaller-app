@@ -42,7 +42,7 @@ node {
                     if [ -d "simple-python-pyinstaller-app" ]
                     then
                         echo "Directory Exist"
-                        rmdir /Q /S simple-python-pyinstaller-app
+                        rmdir /s /q simple-python-pyinstaller-app
                     else
                         echo "Directory don't exist, cloning project..."
                     fi
