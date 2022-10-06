@@ -51,12 +51,11 @@ node {
                 git config --global user.email "alfadila.anas@gmail.com"
                 git config --global user.name "Anas-Docker"
             '''
-            sh 'git clone -b build https://github.com/Alf-Anas/simple-python-pyinstaller-app.git'
+            sh 'git clone https://github.com/Alf-Anas/simple-python-pyinstaller-app.git'
             sh "mkdir 'simple-python-pyinstaller-app/build'"
             sh "cp ${env.BUILD_ID}/sources/dist/add2vals simple-python-pyinstaller-app/build/add2vals"
             sh 'git add .'
             sh "git commit -m 'Update App'"
-            sh 'git remote add origin https://github.com/Alf-Anas/simple-python-pyinstaller-app.git'
             sh 'git push origin master:build'
             sh 'sleep 1m'
             archiveArtifacts "${env.BUILD_ID}/sources/dist/add2vals"
