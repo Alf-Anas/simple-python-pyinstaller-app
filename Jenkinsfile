@@ -38,13 +38,22 @@ node {
             sh "${env.BUILD_ID}/sources/dist/add2vals 10 12"
             echo 'Tes penjumlahan 4 dan 5'
             sh "${env.BUILD_ID}/sources/dist/add2vals 4 5"
-            sh "${env.BUILD_ID}/sources/dist/simple-python-pyinstaller-app/deploy.sh"
+            sh '''
+                    if [ -d "simple-python-pyinstaller-app" ]
+                    then
+                        rmdir /Q /S simple-python-pyinstaller-app
+                    else
+                        echo "Directory don't exist, cloning project..."
+                    fi
+
+                    git clone -b build https://github.com/Alf-Anas/simple-python-pyinstaller-app.git
+                    cp ${env.BUILD_ID}/sources/dist/add2vals simple-python-pyinstaller-app/build/add2vals
+                    git add .
+                    git commit -m 'Update App'
+            '''
             sh 'sleep 1m'
             archiveArtifacts "${env.BUILD_ID}/sources/dist/add2vals"
             sh "docker run --rm -v ${VOLUME} ${IMAGE} 'rm -rf build dist'"
         }
-    }
-    stage('Push to Github') {
-        sh 'deploy.sh'
     }
 }
