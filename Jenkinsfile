@@ -47,6 +47,10 @@ node {
                         echo "Directory don't exist, cloning project..."
                     fi
             '''
+            sh '''
+                git config --global user.email "alfadila.anas@gmail.com"
+                git config --global user.name "Anas-Docker"
+            '''
             sh 'git clone -b build https://github.com/Alf-Anas/simple-python-pyinstaller-app.git'
             sh "mkdir 'simple-python-pyinstaller-app/build'"
             sh "cp ${env.BUILD_ID}/sources/dist/add2vals simple-python-pyinstaller-app/build/add2vals"
